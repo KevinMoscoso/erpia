@@ -117,7 +117,81 @@ return [
 
 ---
 
-### Paso 6 — Ejecutar el proyecto
+---
+
+### Paso 6 — Crear un usuario Admin configurable
+
+**1. Generar una contraseña segura (hash bcrypt)**
+Ejecuta en la terminal:
+
+```bash
+php -r "echo password_hash('TU_CONTRASEÑA', PASSWORD_DEFAULT);"
+```
+Esto generará un hash similar a este:
+
+$2y$10$Qx7H8C9xK8kKk7eY1....
+
+**2. Crear el usuario administrador en la base de datos**
+
+Luego ejecuta el siguiente SQL en MySQL Workbench.
+
+```SQL
+INSERT INTO usuarios (
+    nombre,
+    email,
+    password,
+    rol_id,
+    created_at
+) VALUES (
+    'Administrador',
+    'admin@erpia.local',
+    'HASH_GENERADO_AQUI',
+    1,
+    NOW()
+);
+```
+Debes reemplazar:
+
+HASH_GENERADO_AQUI
+
+por el hash que generaste en el paso anterior.
+
+**3. Iniciar sesión en ERPia**
+
+Una vez creado el usuario administrador:
+
+Correo(ejemplo):
+
+admin@erpia.local
+
+Contraseña(ejemplo):
+
+TU_CONTRASEÑA
+
+Luego podrás acceder al sistema desde:
+
+http://localhost:8000
+
+(si estás usando el servidor embebido de PHP)
+
+**Verificar roles disponibles (opcional)**
+
+Puedes verificar los roles existentes ejecutando:
+
+```SQL
+SELECT * FROM roles;
+```
+
+Normalmente el rol administrador tiene:
+
+```text
+id = 1
+nombre = ADMIN
+```
+
+---
+
+### Paso 7 — Ejecutar el proyecto
 
 #### Servidor embebido de PHP
 
